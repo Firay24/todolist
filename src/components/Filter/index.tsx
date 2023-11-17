@@ -258,24 +258,25 @@ const FiltersField = (props: {
       <Text fontSize={"sm"} color={secondaryColor()} fontWeight={"medium"}>
         Filter fields
       </Text>
-      <HStack>
+      <Stack>
         {/* search components */}
-        <Stack width="auto">
+        <Stack>
           <SearchOnInput sendValue={handleSearch} />
         </Stack>
         <Spacer />
 
         {/* body filter components */}
         <Stack>
-          <HStack gap={3}>
+          <Stack gap={3}>
             <Grid
-              display={"flex"}
+              // display={"flex"}
               alignItems={"center"}
               gap={2}
-              minWidth={"200px"}
+              minWidth={"100%"}
+              maxWidth={"100%"}
             >
               {/* filter by compoennts */}
-              <GridItem minWidth={"fit-content"}>
+              <GridItem minWidth={"100%"}>
                 <Text fontSize={"sm"} color={secondaryColor()}>
                   Filter By
                 </Text>
@@ -409,12 +410,12 @@ const FiltersField = (props: {
 
             {/* value by criteria selected components */}
             <Grid
-              display={"flex"}
+              // display={"flex"}
               alignItems={"center"}
               gap={2}
-              minWidth={"200px"}
+              minWidth={"100%"}
             >
-              <GridItem minWidth={"fit-content"}>
+              <GridItem minWidth={"100%"}>
                 <Text fontSize={"sm"} color={secondaryColor()}>
                   Value
                 </Text>
@@ -474,12 +475,12 @@ const FiltersField = (props: {
 
             {/* sort components */}
             <Grid
-              display={"flex"}
+              // display={"flex"}
               alignItems={"center"}
               gap={2}
-              minWidth={"150px"}
+              minWidth={"100%"}
             >
-              <GridItem minWidth={"fit-content"}>
+              <GridItem minWidth={"100%"}>
                 <Text fontSize={"sm"} color={secondaryColor()}>
                   Sort By
                 </Text>
@@ -619,9 +620,9 @@ const FiltersField = (props: {
             >
               <FaTrash />
             </Button>
-          </HStack>
+          </Stack>
         </Stack>
-      </HStack>
+      </Stack>
     </Stack>
   );
 };

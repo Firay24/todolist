@@ -1,5 +1,5 @@
 // import library used
-import { HStack, Heading, Stack, Text } from "@chakra-ui/react";
+import { Flex, HStack, Heading, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 // import global state from redux
@@ -15,6 +15,8 @@ import ButtonPriority from "@/components/ButtonPriority";
 import CardTask from "@/components/CardTask";
 import FiltersField from "@/components/Filter";
 import NullContent from "@/components/NullContent";
+import SearchOnInput from "@/components/Filter/sections/SearchOnInput";
+import searchFeature from "@/util/search";
 
 interface taskInterface {
   id: number;
@@ -31,6 +33,7 @@ const TodayPage = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState<taskInterface[]>([]);
   const [countTaskOnToday, setCountTaskOnToday] = useState(0);
+  const [deleted, setDeleted] = useState(false);
 
   // state to trigger the effects of data and filter changes
   const [isTitleUpdated, setIsTitleUpdated] = useState<boolean>(false);
@@ -107,6 +110,18 @@ const TodayPage = () => {
     );
   };
 
+  const handleSearch = (value: any) => {
+    const result = searchFeature({ term: value });
+    if (value) {
+      setData(result);
+      setUseFilter(true);
+    }
+  };
+
+  const handlerStatusDeleted = (value: any) => {
+    setDeleted(value);
+  };
+
   // get data from global state redux
   useEffect(() => {
     if (!useFilter) {
@@ -170,33 +185,67 @@ const TodayPage = () => {
   }, [updateCompleted]);
 
   return (
-    <Stack padding={3} width="100%">
+    <Stack padding={3} width="full" minHeight={{ base: "200vh", md: "100vh" }}>
       {/* header component */}
       <Stack width={"100%"}>
-        <HStack>
-          <Stack width={"full"}>
-            <Heading fontSize={"2xl"} color={primaryTextColor()}>
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          alignItems={{ base: "flex-start", md: "center" }}
+          justifyContent={{ base: "flex-start", md: "flex-end" }}
+          gap={4}
+        >
+          <Stack gap={1} marginLeft={{ base: 8, md: 0 }}>
+            <Heading
+              fontSize={{ base: "xl", md: "2xl" }}
+              color={primaryTextColor()}
+            >
               Welcome Back, Fira
             </Heading>
-            <Text color={secondaryColor()} fontSize={"sm"}>
+            <Text color={secondaryColor()} fontSize={{ base: "xs", md: "sm" }}>
               {getToday()}
             </Text>
           </Stack>
-          <ButtonPriority
-            sendData={handlerReceiveData}
-            useFilter={handlerUseFilter}
-          />
-        </HStack>
+
+          <Stack spacing={2} width={"full"}>
+            <Stack display={"flex"} flexDirection={"row"}>
+              <ButtonPriority
+                sendData={handlerReceiveData}
+                useFilter={handlerUseFilter}
+                deleted={deleted}
+                statusDeleted={handlerStatusDeleted}
+              />
+              {/* <ModalFilter
+                handlerReceiveData={handlerReceiveData}
+                handlerResetFilter={handlerResetFilter}
+                handlerUseFilter={handlerUseFilter}
+              /> */}
+              {/* <Button
+                    size={"sm"}
+                    color={primaryTextColor()}
+                    backgroundColor={backgroundContainer()}
+                  >
+                    <MdFilterAlt />
+                  </Button> */}
+            </Stack>
+            <Stack marginTop={2}>
+              <SearchOnInput sendValue={handleSearch} />
+            </Stack>
+            {/* <HStack>
+                  <DragComponent />
+                  <ButtonExport data={data} />
+                </HStack> */}
+          </Stack>
+        </Flex>
       </Stack>
 
       {/* filters field */}
       <Stack marginTop={3} width="100%">
-        <FiltersField
+        {/* <FiltersField
           sendData={handlerReceiveData}
           resetFilter={handlerResetFilter}
           useFilter={handlerUseFilter}
           useCategory={false}
-        />
+        /> */}
       </Stack>
 
       {/* cards component */}

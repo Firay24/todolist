@@ -71,7 +71,12 @@ const ButtonPriority = (props: {
   }, [props.deleted]);
 
   return (
-    <HStack width="100%" gap={0} alignItems={"end"} justifyContent={"end"}>
+    <HStack
+      width="full"
+      gap={0}
+      alignItems={{ base: "start", md: "end" }}
+      justifyContent={{ base: "start", md: "end" }}
+    >
       <ButtonComponent
         onClick={statusButton === "all"}
         title="All task"

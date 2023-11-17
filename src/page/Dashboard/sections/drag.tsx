@@ -106,7 +106,7 @@ const DragComponent = () => {
         backgroundColor={backgroundContainer()}
         fontWeight={"medium"}
         fontSize={"sm"}
-        width={"20%"}
+        width={{ base: "40%", md: "20%" }}
         gap={2}
         color={primaryTextColor()}
         borderColor={borderColor()}

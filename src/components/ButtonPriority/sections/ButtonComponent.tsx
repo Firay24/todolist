@@ -19,7 +19,7 @@ const ButtonComponent = (props: {
     <Button
       onClick={props.handlerClick}
       size={"sm"}
-      width="15%"
+      width="full"
       fontWeight={"medium"}
       backgroundColor={
         props.onClick ? backgroundColorButton() : backgroundContainer()

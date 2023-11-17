@@ -159,10 +159,10 @@ const DetailCategory = () => {
       {/* header */}
       <HStack>
         <HStack gap={4} width={"full"}>
-          <ButtonBack />
           <Heading fontSize={"2xl"} color={primaryTextColor()}>
             {category && category.replace(/-/g, " ")}
           </Heading>
+          <ButtonBack />
         </HStack>
         <Spacer />
         <ButtonPriority

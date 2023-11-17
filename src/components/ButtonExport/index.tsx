@@ -41,6 +41,7 @@ const ButtonExport = (props: { data: any }) => {
       borderWidth={1}
       color={primaryTextColor()}
       _hover={{ backgroundColor: backgroundContainer2() }}
+      width={{ base: "10%", md: "auto" }}
     >
       <BsDownload />
     </Button>

@@ -277,9 +277,15 @@ const CardTask = (props: {
         style={style}
         {...attributes}
         {...listeners}
-        width={props.layout === "panel" ? "70%" : "32%"}
-        minWidth={props.layout === "grid" ? "30%" : "auto"}
-        minHeight="280px"
+        width={
+          props.layout === "panel"
+            ? { base: "90%", md: "70%" }
+            : { base: "47%", md: "32%" }
+        }
+        minWidth={
+          props.layout === "grid" ? { base: "full", md: "30%" } : "auto"
+        }
+        aspectRatio={1}
         backgroundColor={backgroundContainer()}
         cursor={"pointer"}
         shadow="lg"
@@ -289,9 +295,9 @@ const CardTask = (props: {
       >
         <CardBody>
           <Stack>
-            {/* heading components */}
             <Stack>
-              <HStack color={primaryTextColor()}>
+              {/* heading components */}
+              <HStack color={primaryTextColor()} height={"70px"}>
                 <Heading fontSize={"xl"}>
                   <Editable
                     value={isEditing ? title : props.task.title}
@@ -329,12 +335,16 @@ const CardTask = (props: {
                   ) : null}
                 </HStack>
               </HStack>
+
+              {/* deskription and category */}
               <Stack
                 marginTop={3}
                 color={secondaryColor()}
                 fontSize={"sm"}
                 onClick={() => setIsOpenDrawer(true)}
                 cursor={"pointer"}
+                paddingY={1}
+                height={{ base: "110px" }}
               >
                 <Text fontWeight={"medium"}>{`#${props.task.category}`}</Text>
                 <Text>
@@ -342,33 +352,38 @@ const CardTask = (props: {
                 </Text>
               </Stack>
             </Stack>
+
             <Spacer />
-            <HStack
-              marginBottom={0}
-              onClick={() => setIsOpenDrawer(true)}
-              cursor={"pointer"}
-            >
-              <HStack>
-                <Text fontSize={"xs"} color={secondaryColor()}>
-                  <BsCalendarCheck />
-                </Text>
-                <Text fontSize={"xs"} color={secondaryColor()}>
-                  {getToday(props.task.deadline)}
-                </Text>
+
+            {/* deadline and progress */}
+            <Stack>
+              <HStack
+                marginBottom={0}
+                onClick={() => setIsOpenDrawer(true)}
+                cursor={"pointer"}
+              >
+                <HStack>
+                  <Text fontSize={"xs"} color={secondaryColor()}>
+                    <BsCalendarCheck />
+                  </Text>
+                  <Text fontSize={"xs"} color={secondaryColor()}>
+                    {getToday(props.task.deadline)}
+                  </Text>
+                </HStack>
+                <Spacer />
+                <HStack>
+                  <Text fontSize={"xs"} color={secondaryColor()}>
+                    <BiCheckCircle />
+                  </Text>
+                  <Text fontSize={"xs"} color={secondaryColor()}>
+                    {`${
+                      props.task.steps.filter((item: any) => item.completed)
+                        .length
+                    }/${props.task.steps.length}`}
+                  </Text>
+                </HStack>
               </HStack>
-              <Spacer />
-              <HStack>
-                <Text fontSize={"xs"} color={secondaryColor()}>
-                  <BiCheckCircle />
-                </Text>
-                <Text fontSize={"xs"} color={secondaryColor()}>
-                  {`${
-                    props.task.steps.filter((item: any) => item.completed)
-                      .length
-                  }/${props.task.steps.length}`}
-                </Text>
-              </HStack>
-            </HStack>
+            </Stack>
           </Stack>
         </CardBody>
         <Divider borderColor={backgroundContainer2()} />

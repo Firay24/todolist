@@ -3,10 +3,12 @@
 // import library used
 import {
   Button,
+  Flex,
   Grid,
   GridItem,
   HStack,
   Heading,
+  Spacer,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -24,6 +26,8 @@ import FiltersField from "@/components/Filter";
 import DragComponent from "./sections/drag";
 import DragComponentSection from "@/components/DragComponent";
 import NotificationConfirmation from "@/components/NotifConfirm";
+import SearchOnInput from "@/components/Filter/sections/SearchOnInput";
+import ModalFilter from "@/components/ModalFilter";
 
 // import style global component from components folder
 import {
@@ -36,7 +40,9 @@ import {
 
 // import icons from react-icons
 import { LuLayoutGrid, LuLayoutPanelTop } from "react-icons/lu";
+import { MdFilterAlt } from "react-icons/md";
 import { notifyUser, scheduleTaskNotifications } from "@/util/notif";
+import searchFeature from "@/util/search";
 
 // task interface data type
 interface taskInterface {
@@ -141,6 +147,15 @@ const Dashboard = () => {
     setDeleted(value);
   };
 
+  // handler receive result
+  const handleSearch = (value: any) => {
+    const result = searchFeature({ term: value });
+    if (value) {
+      setData(result);
+      setUseFilter(true);
+    }
+  };
+
   // get data from global state redux
   useEffect(() => {
     if (!useFilter) {
@@ -190,10 +205,65 @@ const Dashboard = () => {
   return (
     <>
       <LayoutContext.Provider value={{ layout, switchLayout }}>
-        <Stack padding={3} width="100%">
+        <Stack
+          padding={3}
+          width="full"
+          minHeight={{ base: "200vh", md: "100vh" }}
+        >
           {/* header dasboard page */}
           <Stack width="100%">
-            <Grid templateColumns="repeat(10, 1fr)">
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              alignItems={{ base: "flex-start", md: "center" }}
+              justifyContent={{ base: "flex-start", md: "flex-end" }}
+              gap={4}
+            >
+              <Stack gap={1} marginLeft={{ base: 8, md: 0 }}>
+                <Heading
+                  fontSize={{ base: "xl", md: "2xl" }}
+                  color={primaryTextColor()}
+                >
+                  Welcome Back, Fira
+                </Heading>
+                <Text
+                  color={secondaryColor()}
+                  fontSize={{ base: "xs", md: "sm" }}
+                >
+                  {getToday()}
+                </Text>
+              </Stack>
+
+              <Stack spacing={2} width={"full"}>
+                <Stack display={"flex"} flexDirection={"row"}>
+                  <ButtonPriority
+                    sendData={handlerReceiveData}
+                    useFilter={handlerUseFilter}
+                    deleted={deleted}
+                    statusDeleted={handlerStatusDeleted}
+                  />
+                  <ModalFilter
+                    handlerReceiveData={handlerReceiveData}
+                    handlerResetFilter={handlerResetFilter}
+                    handlerUseFilter={handlerUseFilter}
+                  />
+                  {/* <Button
+                    size={"sm"}
+                    color={primaryTextColor()}
+                    backgroundColor={backgroundContainer()}
+                  >
+                    <MdFilterAlt />
+                  </Button> */}
+                </Stack>
+                <Stack marginTop={2}>
+                  <SearchOnInput sendValue={handleSearch} />
+                </Stack>
+                {/* <HStack>
+                  <DragComponent />
+                  <ButtonExport data={data} />
+                </HStack> */}
+              </Stack>
+            </Flex>
+            {/* <Grid templateColumns="repeat(10, 1fr)">
               <GridItem colSpan={3}>
                 <Stack gap={1}>
                   <Heading fontSize={"2xl"} color={primaryTextColor()}>
@@ -219,25 +289,25 @@ const Dashboard = () => {
                 />
                 <DragComponent />
 
-                {/* <UploadComponent /> */}
+                <UploadComponent />
                 <ButtonExport data={data} />
               </GridItem>
-            </Grid>
+            </Grid> */}
           </Stack>
 
           {/* filter fields */}
-          <Stack marginTop={3} width="100%">
+          {/* <Stack marginTop={3} width="100%">
             <FiltersField
               sendData={handlerReceiveData}
               resetFilter={handlerResetFilter}
               useFilter={handlerUseFilter}
               useCategory={true}
             />
-          </Stack>
+          </Stack> */}
 
           {/* card content */}
           <HStack alignItems={"start"}>
-            <Stack width={"95%"}>
+            <Stack width={"full"}>
               {layout === "panel" ? (
                 <DragComponentSection
                   data={data}
@@ -272,7 +342,7 @@ const Dashboard = () => {
             </Stack>
 
             {/* option to choose layout */}
-            <Stack
+            {/* <Stack
               backgroundColor={backgroundContainer()}
               padding={4}
               rounded={"md"}
@@ -298,9 +368,10 @@ const Dashboard = () => {
               >
                 <LuLayoutPanelTop />
               </Button>
-            </Stack>
+            </Stack> */}
           </HStack>
         </Stack>
+
         {/* notification section */}
         {!userResponded && !(Notification.permission === "granted") ? (
           <NotificationConfirmation confirmNotif={handleConfirmNotif} />

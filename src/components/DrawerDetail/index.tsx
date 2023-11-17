@@ -279,7 +279,6 @@ const DrawerDetailTask = (props: {
     const uploadedFiles = JSON.parse(
       localStorage.getItem("uploadedFiles") || "{}"
     );
-    console.log(props.task.id, !uploadedFiles[props.task.id]);
     setIsDisabled(!uploadedFiles[props.task.id]);
     setIsFile(false);
   }, [isFile, props.task.id]);
@@ -289,12 +288,14 @@ const DrawerDetailTask = (props: {
       isOpen={props.isOpenDrawer}
       placement="right"
       onClose={() => props.setIsOpenDrawer(false)}
+      size={{ base: "lg", md: "xs" }}
     >
-      <DrawerOverlay />
+      <DrawerOverlay minHeight={{ base: "200vh", md: "100vh" }} />
       <DrawerContent
-        overflow={"visible"}
+        // overflow={"visible"}
         backgroundColor={backgroundContainer()}
         color={primaryTextColor()}
+        minHeight={{ base: "200vh", md: "100vh" }}
       >
         <DrawerHeader>{props.task.title}</DrawerHeader>
         <DrawerBody

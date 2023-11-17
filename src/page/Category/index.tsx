@@ -228,12 +228,16 @@ const EasyPage = () => {
   }, [createdCategory]);
 
   return (
-    <Stack padding={3} width="100%">
-      <Heading fontSize={"2xl"} color={primaryTextColor()}>
+    <Stack padding={3} width="full" minHeight={{ base: "200vh", md: "100vh" }}>
+      <Heading
+        marginLeft={{ base: 8, md: 0 }}
+        fontSize={"2xl"}
+        color={primaryTextColor()}
+      >
         Tasks by Category
       </Heading>
       <HStack width={"full"} marginTop={4}>
-        <Stack width={"25%"}>
+        <Stack width={"full"}>
           <InputGroup size="sm">
             <InputLeftElement color={"gray.400"}>
               <FiSearch />
@@ -248,7 +252,7 @@ const EasyPage = () => {
           </InputGroup>
         </Stack>
         <Spacer />
-        <HStack>
+        <HStack justifyContent={"end"}>
           <Grid>
             <GridItem width={"100%"}>
               <Popover

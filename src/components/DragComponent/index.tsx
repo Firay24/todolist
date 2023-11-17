@@ -67,7 +67,7 @@ function DragComponentSection(props: {
         spacing={5}
         justifyContent="center"
         minHeight="30rem"
-        width={"100"}
+        width={"100%"}
         flex="1"
         marginTop={4}
       >
